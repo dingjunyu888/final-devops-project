@@ -1,0 +1,7 @@
+backend/user-service/node_modules/
+backend/product-service/node_modules/
+backend/order-service/node_modules/
+
+backend/user-service/package-lock.json
+backend/product-service/package-lock.json
+backend/order-service/package-lock.json
