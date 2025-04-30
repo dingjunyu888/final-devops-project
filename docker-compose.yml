@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  user-service:
+    build:
+      context: ./backend/user-service
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/db:/app/db
+    environment:
+      - DB_PATH=/app/db/ecommerce.db
+
+  product-service:
+    build:
+      context: ./backend/product-service
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend/db:/app/db
+    environment:
+      - DB_PATH=/app/db/ecommerce.db
+
+  order-service:
+    build:
+      context: ./backend/order-service
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./backend/db:/app/db
+    environment:
+      - DB_PATH=/app/db/ecommerce.db
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
