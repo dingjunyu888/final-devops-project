@@ -15,6 +15,7 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
+//This is just for test
 app.get('/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users');
