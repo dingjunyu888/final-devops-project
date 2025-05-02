@@ -1,4 +1,5 @@
-FROM node:18
+# Base image
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -8,5 +9,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 3002
-
 CMD ["npm", "start"]

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE;
+const PRODUCT_SERVICE_URL = import.meta.env.VITE_PRODUCT_SERVICE;
+const ORDER_SERVICE_URL = import.meta.env.VITE_ORDER_SERVICE;
+
 function App() {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
@@ -13,9 +17,9 @@ function App() {
   const [orderProduct, setOrderProduct] = useState('');
 
   const fetchAll = async () => {
-    const u = await axios.get('http://localhost:3001/users');
-    const p = await axios.get('http://localhost:3002/products');
-    const o = await axios.get('http://localhost:3003/orders');
+    const u = await axios.get(USER_SERVICE_URL);
+    const p = await axios.get(PRODUCT_SERVICE_URL);
+    const o = await axios.get(ORDER_SERVICE_URL);
     setUsers(u.data);
     setProducts(p.data);
     setOrders(o.data);
@@ -23,14 +27,14 @@ function App() {
 
   const addUser = async () => {
     if (!username) return;
-    await axios.post('http://localhost:3001/users', { name: username });
+    await axios.post(USER_SERVICE_URL, { name: username });
     setUsername('');
     fetchAll();
   };
 
   const addProduct = async () => {
     if (!productName || !productPrice) return;
-    await axios.post('http://localhost:3002/products', {
+    await axios.post(PRODUCT_SERVICE_URL, {
       name: productName,
       price: parseInt(productPrice)
     });
@@ -41,7 +45,7 @@ function App() {
 
   const placeOrder = async () => {
     if (!orderUser || !orderProduct) return;
-    await axios.post('http://localhost:3003/orders', {
+    await axios.post(ORDER_SERVICE_URL, {
       userName: orderUser,
       productName: orderProduct
     });
@@ -104,11 +108,12 @@ function App() {
       <ul>{products.map(p => <li key={p.id}>{p.name} - ${p.price}</li>)}</ul>
 
       <h2>Orders</h2>
-      <ul>{orders.map(o => <li key={o.id}>{o.userName} ordered {o.productName}</li>)}</ul>
+      <ul>{orders.map(o => <li key={o.id}>{o.username} ordered {o.productname}</li>)}</ul>
     </div>
   );
 }
 
 export default App;
+
 
 

@@ -1,29 +1,46 @@
 const express = require('express');
 const cors = require('cors');
-const Database = require('better-sqlite3');
-const path = require('path');
+const { Pool } = require('pg');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const dbPath = process.env.DB_PATH || '/app/db/ecommerce.db';
-const db = new Database(dbPath);
-
-app.get('/products', (req, res) => {
-    const products = db.prepare('SELECT * FROM products').all();
-    res.json(products);
+const pool = new Pool({
+    host: process.env.DB_HOST,
+    port: 5432,
+    user: 'junyu',
+    password: process.env.DB_PASSWORD,
+    database: 'ecommerce',
+    ssl: { rejectUnauthorized: false },
 });
 
-app.post('/products', (req, res) => {
+app.get('/products', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM products');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error querying products:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/products', async (req, res) => {
     const { name, price } = req.body;
     if (!name || price === undefined) {
         return res.status(400).json({ error: 'Name and price are required' });
     }
 
-    const stmt = db.prepare('INSERT INTO products (name, price) VALUES (?, ?)');
-    const result = stmt.run(name, price);
-    res.status(201).json({ id: result.lastInsertRowid, name, price });
+    try {
+        const result = await pool.query(
+            'INSERT INTO products (name, price) VALUES ($1, $2) RETURNING *',
+            [name, price]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error('Error inserting product:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 app.get('/health', (req, res) => res.send('Product Service OK'));
