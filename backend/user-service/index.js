@@ -15,7 +15,6 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-//This route returns all users from the database
 app.get('/users', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM users');
