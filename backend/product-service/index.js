@@ -15,6 +15,7 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
+//just for test
 app.get('/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products');
@@ -42,6 +43,7 @@ app.post('/products', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 app.get('/health', (req, res) => res.send('Product Service OK'));
 
