@@ -58,7 +58,7 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>Mini DevOps E-Commerce</h1>
+      <h1>Mini DevOps E-Shop</h1>
 
       {/* Add User */}
       <div>
