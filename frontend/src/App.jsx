@@ -58,6 +58,7 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
+      {/* Test */}
       <h1>Mini DevOps E-Shop</h1>
 
       {/* Add User */}
