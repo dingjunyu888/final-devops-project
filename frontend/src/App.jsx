@@ -106,7 +106,7 @@ function App() {
       <div style={{ width: '100%', maxWidth: '1500px' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '3rem', margin: '0', color: '#2d3748' }}>📘 Tally Note UAT update</h1>
+          <h1 style={{ fontSize: '3rem', margin: '0', color: '#2d3748' }}>📘 Tally Note Green</h1>
           <p style={{ fontSize: '1.2rem', color: '#4a5568' }}>
             Track who spent what and how much — easily.
           </p>
