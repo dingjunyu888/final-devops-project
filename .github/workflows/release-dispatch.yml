@@ -9,17 +9,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Send dispatch to infra repo
+    - name: Determine environment and dispatch event
       env:
-        GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}  # Must have `repo` scope
+        GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        RELEASE_TITLE: ${{ github.event.release.name }}
       run: |
+        echo "Release title: $RELEASE_TITLE"
+
+        if [[ "$RELEASE_TITLE" == *-rc-* ]]; then
+          EVENT_TYPE="trigger-uat-deploy"
+        elif [[ "$RELEASE_TITLE" == *-ga-* ]]; then
+          EVENT_TYPE="trigger-prod-deploy"
+        else
+          echo "❌ Invalid release title. Must include -rc- or -ga-"
+          exit 1
+        fi
+
         curl -X POST https://api.github.com/repos/dingjunyu888/final-devops-infra/dispatches \
         -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer $GH_TOKEN" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        -d '{
-              "event_type": "trigger-uat-deploy",
-              "client_payload": {
-                "release_title": "'"${{ github.event.release.name }}"'"
+        -d "{
+              \"event_type\": \"${EVENT_TYPE}\",
+              \"client_payload\": {
+                \"release_title\": \"${RELEASE_TITLE}\"
               }
-            }'
+            }"
+
