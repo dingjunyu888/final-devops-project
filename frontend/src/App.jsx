@@ -5,6 +5,8 @@ const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE;
 const PRODUCT_SERVICE_URL = import.meta.env.VITE_PRODUCT_SERVICE;
 const ORDER_SERVICE_URL = import.meta.env.VITE_ORDER_SERVICE;
 
+// This is just for test
+
 function App() {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
