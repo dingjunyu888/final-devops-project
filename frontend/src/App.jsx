@@ -58,16 +58,16 @@ function App() {
 
   useEffect(() => { fetchAll(); }, []);
 
-  const sectionStyle = {
-    margin: '20px 0',
-    padding: '20px',
-    borderRadius: '8px',
+  const cardStyle = {
     backgroundColor: '#f9f9f9',
+    color: '#2d3748',
+    borderRadius: '8px',
+    padding: '20px',
     boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
   };
 
   const inputStyle = {
-    marginRight: '10px',
+    margin: '8px 8px 8px 0',
     padding: '8px',
     borderRadius: '4px',
     border: '1px solid #ccc',
@@ -83,81 +83,102 @@ function App() {
   };
 
   return (
-    <div style={{ padding: 40, fontFamily: 'Arial, sans-serif', maxWidth: 800, margin: 'auto' }}>
-      <h1 style={{ textAlign: 'center', color: '#2d3748' }}>📘 Tally Note</h1>
-      <p style={{ textAlign: 'center', color: '#4a5568' }}>
-        Track who spent what and how much — easily.
-      </p>
-
-      {/* Add People */}
-      <div style={sectionStyle}>
-        <h2>Add a Person</h2>
-        <input
-          placeholder="Name"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          style={inputStyle}
-        />
-        <button onClick={addUser} style={buttonStyle}>Add Person</button>
+    <div style={{ padding: 40, fontFamily: 'Arial, sans-serif', maxWidth: 1000, margin: 'auto' }}>
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '3rem', margin: '0', color: '#2d3748' }}>📘 Tally Note</h1>
+        <p style={{ fontSize: '1.2rem', color: '#4a5568' }}>
+          Track who spent what and how much — easily.
+        </p>
       </div>
 
-      {/* Add Cost */}
-      <div style={sectionStyle}>
-        <h2>Add a Cost</h2>
-        <input
-          placeholder="Item"
-          value={productName}
-          onChange={e => setProductName(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          placeholder="Price"
-          type="number"
-          value={productPrice}
-          onChange={e => setProductPrice(e.target.value)}
-          style={inputStyle}
-        />
-        <button onClick={addProduct} style={buttonStyle}>Add Cost</button>
-      </div>
+      {/* Grid layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+        {/* Add Person */}
+        <div style={cardStyle}>
+          <h2>Add a Person</h2>
+          <input
+            placeholder="Name"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            style={inputStyle}
+          />
+          <button onClick={addUser} style={buttonStyle}>Add Person</button>
+        </div>
 
-      {/* Add Transaction */}
-      <div style={sectionStyle}>
-        <h2>Add a Transaction</h2>
-        <input
-          placeholder="Person"
-          value={orderUser}
-          onChange={e => setOrderUser(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          placeholder="Item"
-          value={orderProduct}
-          onChange={e => setOrderProduct(e.target.value)}
-          style={inputStyle}
-        />
-        <button onClick={placeOrder} style={buttonStyle}>Record Spend</button>
-      </div>
+        {/* Add Cost */}
+        <div style={cardStyle}>
+          <h2>Add a Cost</h2>
+          <input
+            placeholder="Item"
+            value={productName}
+            onChange={e => setProductName(e.target.value)}
+            style={inputStyle}
+          />
+          <input
+            placeholder="Price"
+            type="number"
+            value={productPrice}
+            onChange={e => setProductPrice(e.target.value)}
+            style={inputStyle}
+          />
+          <button onClick={addProduct} style={buttonStyle}>Add Cost</button>
+        </div>
 
-      {/* Lists */}
-      <div style={sectionStyle}>
-        <h3>👥 People</h3>
-        <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>
-      </div>
+        {/* Add Transaction */}
+        <div style={cardStyle}>
+          <h2>Add a Transaction</h2>
+          <input
+            placeholder="Person"
+            value={orderUser}
+            onChange={e => setOrderUser(e.target.value)}
+            style={inputStyle}
+          />
+          <input
+            placeholder="Item"
+            value={orderProduct}
+            onChange={e => setOrderProduct(e.target.value)}
+            style={inputStyle}
+          />
+          <button onClick={placeOrder} style={buttonStyle}>Record Spend</button>
+        </div>
 
-      <div style={sectionStyle}>
-        <h3>💸 Costs</h3>
-        <ul>{products.map(p => <li key={p.id}>{p.name} — ${p.price}</li>)}</ul>
-      </div>
+        {/* People */}
+        <div style={cardStyle}>
+          <h3>👥 People</h3>
+          <ul>
+            {users.map(u => (
+              <li key={u.id}>{u.name}</li>
+            ))}
+          </ul>
+        </div>
 
-      <div style={sectionStyle}>
-        <h3>📒 Transactions</h3>
-        <ul>{orders.map(o => <li key={o.id}>{o.username} spent on {o.productname}</li>)}</ul>
+        {/* Costs */}
+        <div style={cardStyle}>
+          <h3>💸 Costs</h3>
+          <ul>
+            {products.map(p => (
+              <li key={p.id}>{p.name} — ${p.price}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Transactions */}
+        <div style={cardStyle}>
+          <h3>📒 Transactions</h3>
+          <ul>
+            {orders.map(o => (
+              <li key={o.id}>{o.username} spent on {o.productname}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
 }
 
 export default App;
+
 
 
 
